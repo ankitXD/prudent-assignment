@@ -26,8 +26,10 @@ export default function Home() {
   const [sort, setSort] = useState("");
   const [order, setOrder] = useState("");
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
   const [view, setView] = useState<"table" | "card">("table");
+
+  // 10 rows for table, 12 cards for card view
+  const limit = view === "card" ? 12 : 10;
 
   const sortValue = useMemo(
     () => (sort && order ? `${sort}-${order}` : "default"),
@@ -140,7 +142,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Blue gradient header */}
-      <div className="relative overflow-hidden bg-linear-to-r from-blue-600 to-blue-500 px-6 py-8 sm:px-10">
+      <div className="relative overflow-hidden bg-[#3B82F6] px-6 py-8 sm:px-10">
         <div className="relative z-10">
           <h1 className="text-2xl font-bold text-white sm:text-3xl">
             Patient Directory
@@ -172,14 +174,17 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-300 px-4 sm:px-6 lg:px-8">
+      <div className="px-4 sm:px-6 lg:px-8">
         {!selectedPatient && (
           <>
             {/* View Toggle Tabs */}
             <div className="flex items-center justify-between border-b border-gray-200 pt-4">
               <div className="flex">
                 <button
-                  onClick={() => setView("table")}
+                  onClick={() => {
+                    setView("table");
+                    setPage(1);
+                  }}
                   className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
                     view === "table"
                       ? "border-blue-600 text-blue-600"
@@ -189,7 +194,10 @@ export default function Home() {
                   Table View
                 </button>
                 <button
-                  onClick={() => setView("card")}
+                  onClick={() => {
+                    setView("card");
+                    setPage(1);
+                  }}
                   className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
                     view === "card"
                       ? "border-blue-600 text-blue-600"
@@ -257,7 +265,7 @@ export default function Home() {
         )}
 
         {/* Loading State */}
-        {loading && !error && <Loading view={view} />}
+        {loading && !error && <Loading view={view} count={limit} />}
 
         {/* Content */}
         {!loading && !error && selectedPatient && (
