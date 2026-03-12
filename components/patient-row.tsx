@@ -16,6 +16,7 @@ export default function PatientRow({ patient }: PatientRowProps) {
       {/* Avatar */}
       <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted">
         {patient.photo_url ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={patient.photo_url}
             alt={patient.patient_name}
@@ -32,7 +33,7 @@ export default function PatientRow({ patient }: PatientRowProps) {
       </div>
 
       {/* Name + Age */}
-      <div className="min-w-[140px]">
+      <div className="min-w-35">
         <p className="font-medium text-sm leading-tight">
           {patient.patient_name}
         </p>
@@ -40,7 +41,7 @@ export default function PatientRow({ patient }: PatientRowProps) {
       </div>
 
       {/* Medical Issue */}
-      <div className="min-w-[100px]">
+      <div className="min-w-25">
         <Badge variant="secondary" className="capitalize">
           {patient.medical_issue}
         </Badge>
@@ -59,7 +60,7 @@ export default function PatientRow({ patient }: PatientRowProps) {
           </div>
           <div className="flex items-center gap-1.5">
             <MapPin className="h-3.5 w-3.5 shrink-0" />
-            <span className="truncate max-w-[200px]">{contact.address}</span>
+            <span className="truncate max-w-50">{contact.address}</span>
           </div>
         </div>
       )}
