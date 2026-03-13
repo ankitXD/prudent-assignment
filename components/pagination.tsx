@@ -19,13 +19,13 @@ export default function Pagination({
 }: PaginationProps) {
   const getPageNumbers = (): number[] => {
     const pages: number[] = [];
-    // Show up to 7 pages around the current one
-    const maxVisible = 7;
+    // Show up to 5 pages on mobile, 7 on desktop
+    const maxVisible = 5;
 
     if (totalPages <= maxVisible) {
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
-      let start = Math.max(1, page - 3);
+      let start = Math.max(1, page - 2);
       const end = Math.min(totalPages, start + maxVisible - 1);
       if (end - start < maxVisible - 1) {
         start = Math.max(1, end - maxVisible + 1);
@@ -39,21 +39,21 @@ export default function Pagination({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-center gap-1">
+    <div className="flex flex-wrap items-center justify-center gap-1 sm:gap-2">
       <button
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
-        className="flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 sm:px-3"
       >
         <ChevronLeft className="h-4 w-4" />
-        Previous
+        <span className="hidden sm:inline">Previous</span>
       </button>
 
       {getPageNumbers().map((p) => (
         <button
           key={p}
           onClick={() => onPageChange(p)}
-          className={`flex h-8 min-w-8 items-center justify-center rounded-lg px-2 text-sm transition-colors ${
+          className={`flex h-8 min-w-8 items-center justify-center rounded-lg px-1.5 text-xs sm:px-2 sm:text-sm transition-colors ${
             p === page
               ? "bg-blue-600 font-medium text-white"
               : "text-gray-500 hover:bg-gray-100"
@@ -66,9 +66,9 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(page + 1)}
         disabled={page >= totalPages}
-        className="flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-40 sm:px-3"
       >
-        Next
+        <span className="hidden sm:inline">Next</span>
         <ChevronRight className="h-4 w-4" />
       </button>
     </div>
